@@ -5,6 +5,14 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 pd.options.display.float_format = '{:.2f}'.format
 
+## data
+link_source = 'https://drive.google.com/uc?export=download&id='
+
+link_product = link_source + '1QGEVPuV34xIfZMadexbnu3u1o4L_heYz'
+link_review = link_source + '1Qd2j-SP0IZN_MOJ4lDbhN7dthDWKxdTS'
+link_data_xl = link_source + '1Q5xnXFPHDENDfhjLx6RH1AYCkcz1y90b'
+link_Recomender_Collborative = link_source + '1QSuaLQ8OInj3LAHl3aHMvNqrLwjZYHNL'
+
 #--------------
 # Gonfig GUI
 st.set_page_config(page_title='Product Recommendation', layout = 'wide', initial_sidebar_state = "expanded",page_icon="📝")
@@ -12,25 +20,29 @@ st.set_page_config(page_title='Product Recommendation', layout = 'wide', initial
 # Load data
 @st.cache
 def load_products():
-    return pd.read_csv('data/Product.csv')
+    return pd.read_csv(link_product)
 
 products = load_products() 
 
 @st.cache
 def load_reviews():
-    return pd.read_csv('data/Review.csv')
+    return pd.read_csv(link_review)
 
 @st.cache
 def load_data_xl():
-    return pd.read_csv('data/data_xl.csv', encoding='UTF-8')
+    return pd.read_csv(link_data_xl, encoding='UTF-8')
 
 @st.cache
 def load_cosine_similarities():
-    return np.array(np.load('data/cosine_similarities.npy','r'))
+    from sklearn.feature_extraction.text import TfidfVectorizer
+    from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
+    tf = TfidfVectorizer(analyzer='word', min_df=0)
+    tfidf_matrix = tf.fit_transform(data_xl.products_wt)
+    return cosine_similarity(tfidf_matrix, tfidf_matrix)
 
 @st.cache
 def load_recomenders_collborative():
-    return pd.read_csv('data/Recomender_Collborative.csv')
+    return pd.read_csv(link_Recomender_Collborative)
 
 # Function recommenders for an user
 @st.cache
