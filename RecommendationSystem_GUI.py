@@ -8,10 +8,10 @@ pd.options.display.float_format = '{:.2f}'.format
 ## data
 link_source = 'https://drive.google.com/uc?export=download&id='
 
-link_product = link_source + '1QGEVPuV34xIfZMadexbnu3u1o4L_heYz'
-link_review = link_source + '1Qd2j-SP0IZN_MOJ4lDbhN7dthDWKxdTS'
-link_data_xl = link_source + '1Q5xnXFPHDENDfhjLx6RH1AYCkcz1y90b'
-link_Recomender_Collborative = link_source + '1QSuaLQ8OInj3LAHl3aHMvNqrLwjZYHNL'
+link_product = link_source + '1QGEVPuV34xIfZMadexbnu3u1o4L_heYz' #https://drive.google.com/file/d/1QGEVPuV34xIfZMadexbnu3u1o4L_heYz/view?usp=sharing
+link_review = link_source + '1Qd2j-SP0IZN_MOJ4lDbhN7dthDWKxdTS' #https://drive.google.com/file/d/1Qd2j-SP0IZN_MOJ4lDbhN7dthDWKxdTS/view?usp=sharing
+link_data_xl = link_source + '1Q5xnXFPHDENDfhjLx6RH1AYCkcz1y90b' #https://drive.google.com/file/d/1Q5xnXFPHDENDfhjLx6RH1AYCkcz1y90b/view?usp=sharing
+link_Recomender_Collborative = link_source + '1QSuaLQ8OInj3LAHl3aHMvNqrLwjZYHNL' #https://drive.google.com/file/d/1QSuaLQ8OInj3LAHl3aHMvNqrLwjZYHNL/view?usp=sharing
 
 #--------------
 # Gonfig GUI
@@ -98,25 +98,28 @@ elif choice == "Tìm hiểu dữ liệu":
     <h2 style="color:white;text-align:center;">Tìm hiểu dữ liệu</h2>
     </div>
     """
+    strNhanXet ='<h5 style="color:#0047ab;text-align:left;">Nhận xét:</h5>'
     # Header-----
     st.markdown(html_temp,unsafe_allow_html=True)
     reviews = load_reviews() # pd.read_csv('data/Review.csv')
     
     sns.displot(products,x='rating',kind='hist')
-    plt.title("Biểu đồ phân phối của rating của product",fontsize=8,color='blue')
+    plt.title("Biểu đồ phân phối rating của product",fontsize=8,color='blue')
     st.pyplot()
-    st.write('''Nhận xét:
-- Rating của sản phẩm trong product có giá trị từ 0 đến 5
+        
+    st.markdown(strNhanXet,unsafe_allow_html=True)
+    st.write('''- Rating của sản phẩm trong product có giá trị từ 0 đến 5
 - Số lượng rating 0 và 5 tương đương nhau
-- Điểm rating phần lớn tập trung từ 4-5.''')
+- Điểm rating phần lớn tập trung từ 4-5.
+- Điểm rating = 0 có thể do sản phẩm chưa được đánh giá nên để mặc định''')
     st.write('')
 
-    # Sự phân bổ Ratings 
+    # Sự phân bổ Ratings của khách hàng
     sns.displot(reviews,x='rating',kind='hist')
     plt.title("Biểu đồ phân phối của rating của khách hàng",fontsize=8,color='blue')
     st.pyplot()
-    st.write('''Nhận xét:
-- Phần lớn khách hàng phản hồi tích cực về sản phẩm
+    st.markdown(strNhanXet,unsafe_allow_html=True)
+    st.write('''- Phần lớn khách hàng phản hồi tích cực về sản phẩm
 - Sản phẩm có chất lượng tốt hoặc khách hàng dễ tính
 - Đa phần các đánh giá từ trên 4 điểm, đánh giá 5 điểm chiếm tỷ lệ cao
 - Các đánh giá có giá trị từ 1-5''')
@@ -124,14 +127,14 @@ elif choice == "Tìm hiểu dữ liệu":
 
     # Sản phẩm theo thương hiệu
     brands = products.groupby('brand')['item_id'].count().sort_values(ascending=False)
-    # plt.figure(figsize=(15,8))
     bar = sns.barplot(data=brands.to_frame()[1:11].reset_index(),x='brand',y='item_id', palette="Blues_r")
     bar.set_xticklabels(bar.get_xticklabels(), rotation=90)
     plt.ylabel('Number of product')
-    plt.title("Top 10 thương hiệu có nhiều sản phẩm nhất",fontsize=10,color='blue')
+    plt.title("Top 10 thương hiệu có nhiều sản phẩm nhất",fontsize=8,color='blue')
     st.pyplot()
-    st.write('''Nhận xét:
-- Thương hiệu samsung có mã hàng nhiều nhất, các thương hiệu khác có số lượng mã hàng từ 75-100''')
+    st.markdown(strNhanXet,unsafe_allow_html=True)
+    st.write('''- Thương hiệu samsung có nhiều mã hàng nhất
+- Các thương hiệu khác có số lượng mã hàng khoảng từ 60-100''')
     st.write("")
 
     # Giá bán theo thương hiệu
@@ -142,8 +145,8 @@ elif choice == "Tìm hiểu dữ liệu":
     plt.ylabel('Price')
     plt.title("Top 10 giá bán theo thương hiệu",fontsize=18,color='blue')
     st.pyplot()
-    st.write('''Nhận xét:
-- Thương hiệu Hitachi có trung bình giá bán cao nhất''')
+    st.markdown(strNhanXet,unsafe_allow_html=True)
+    st.write('- Thương hiệu Hitachi có trung bình giá bán cao nhất')
     st.write("")
     
     top_rating_products = reviews.groupby(by='product_id').count()['customer_id'].sort_values(ascending=False)[:20]
@@ -154,8 +157,8 @@ elif choice == "Tìm hiểu dữ liệu":
     plt.ylabel('Số lượng đánh giá')
     plt.title("Top 20 sản phẩm được đánh giá nhiều nhất",fontsize=18,color='blue')
     st.pyplot()
-    st.write('''Nhận xét:
-- Phụ kiện điện thoại, máy tính
+    st.markdown(strNhanXet,unsafe_allow_html=True)
+    st.write('''- Phụ kiện điện thoại, máy tính
 - Chuột không dây logitech được đánh giá nhiều nhất''')
 
 elif choice == "Đề xuất người dùng với Content based filtering":
@@ -240,13 +243,13 @@ elif choice == "Đề xuất người dùng với Collaborative filtering":
     st.markdown(html_temp,unsafe_allow_html=True)
     custIdsDefault = [10701688,11763074,13132598,11360428,12501987,12286743,15356393,14329244,14634037,16136723,17046856,13562927,12533916,10669721,10794654,10067279,11044205,14390035,18132106,11282171,14284583,17335575,14090397,15677717,19198887,17680741,18860589,19781287,11517697,16822674,10107865,19014688,11472727,11671593,13067276,15534235,15415309,16837996,20188312,17734805,20758207,11163955,11043040,12985305,16409336,11676531,11858104,17611104,10034801,16799850,18256187,10279553,19677744,18535485,11174386,17539237,16319435,11345636,15868853,13175665,10600682,13890346,17334166,10371235,18285577,11225533,11520401,10523440,10568749,13800460,18810996,14555930,13086421,15083755,10522112,14703210,13981024,10906890,13333245,15462201,13631188,20441329,13085882,13554619,19148341,13642827,14058815,10321855,10509329,20545482,20775881,19190448,20108289,11333760,19276521,17882495,14425088,14877474,17515216,10309831,10870410,10526674,13459468,11174641,11232488,19371818,15191237,18915491,15508611,13700067,18421965,13612033,15766998,10416934,12179361,12250233,10503680,19452549,10542562,13872637,11612099,17681785,12452208,10245727,17872615,11365720,11059384,15856762,10182179,18440429,14742850,20387094,12486134,10488355,14451729,10625224,15861135,11213649]
     recommenders = load_recomenders_collborative()
-    with st.form(key='Tìm kiếm sản phẩm tương tự'):
+    with st.form(key='Đề xuất sản phẩm cho người dùng'):
         selected_user = st.multiselect('Chọn người dùng', custIdsDefault ,[10701688])
         items_num = st.slider(label='Số lượng sản phẩm đề xuất:',min_value=1,max_value=10,value=6,step=1)
         submit_button = st.form_submit_button(label='Thực hiện đề xuất sản phẩm 📝')
     if submit_button:
         if len(selected_user) ==0:
-            st.markdown("<h4 style='text-align: left; color: #0047ab;'>Bạn chưa chọn mã khách hàng, vui lòng chọn mã khách hàng trên danh sách!</h4>", unsafe_allow_html=True)
+            st.markdown("<h4 style='text-align: left; color: #0047ab;'>Bạn chưa chọn người dùng, vui lòng chọn người dùng có trong danh sách!</h4>", unsafe_allow_html=True)
         else:
             data = get_recommenders_for_user(recommenders,selected_user[0],items_num)
             data.reset_index()
@@ -282,5 +285,5 @@ elif choice == "Đề xuất người dùng với Collaborative filtering":
 
 # Footer
 footer_name ='''<a style="color:#282c35; font-style:italic; font-size:14px; padding:10px 0 15px">
-Trung Tâm Tin Học Trường Đại học khoa học Tự nhiên (team: VÕ HỮU LỘC - PHẠM THANH TÙNG)</a>'''
+Trung Tâm Tin Học Trường Đại học khoa học Tự nhiên (Team: VÕ HỮU LỘC - PHẠM THANH TÙNG)</a>'''
 st.markdown("<div><a style='color:#e5e4e2'>"+"_"*178+"</a><br>"+footer_name+"</div>",unsafe_allow_html=True)
