@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-import numpy as np
+# import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
 pd.options.display.float_format = '{:.2f}'.format
@@ -8,10 +8,12 @@ pd.options.display.float_format = '{:.2f}'.format
 ## data
 link_source = 'https://drive.google.com/uc?export=download&id='
 
-link_product = link_source + '1QGEVPuV34xIfZMadexbnu3u1o4L_heYz' #https://drive.google.com/file/d/1QGEVPuV34xIfZMadexbnu3u1o4L_heYz/view?usp=sharing
-link_review = link_source + '1Qd2j-SP0IZN_MOJ4lDbhN7dthDWKxdTS' #https://drive.google.com/file/d/1Qd2j-SP0IZN_MOJ4lDbhN7dthDWKxdTS/view?usp=sharing
-link_data_xl = link_source + '1Q5xnXFPHDENDfhjLx6RH1AYCkcz1y90b' #https://drive.google.com/file/d/1Q5xnXFPHDENDfhjLx6RH1AYCkcz1y90b/view?usp=sharing
-link_Recomender_Collborative = link_source + '1QSuaLQ8OInj3LAHl3aHMvNqrLwjZYHNL' #https://drive.google.com/file/d/1QSuaLQ8OInj3LAHl3aHMvNqrLwjZYHNL/view?usp=sharing
+link_product = link_source + '1QGEVPuV34xIfZMadexbnu3u1o4L_heYz'
+link_review = link_source + '1Qd2j-SP0IZN_MOJ4lDbhN7dthDWKxdTS'
+link_data_xl = link_source + '1Q5xnXFPHDENDfhjLx6RH1AYCkcz1y90b'
+link_Recomender_Collborative = link_source + '1QSuaLQ8OInj3LAHl3aHMvNqrLwjZYHNL'
+
+
 
 #--------------
 # Gonfig GUI
@@ -60,7 +62,6 @@ st.set_option('deprecation.showPyplotGlobalUse', False)
 menu = ["Tổng quan","Tìm hiểu dữ liệu","Đề xuất người dùng với Content based filtering","Đề xuất người dùng với Collaborative filtering"]
 choice = st.sidebar.selectbox("Chọn chức năng:",menu)
 if choice == 'Tổng quan':
-    # st.image('picture/teamwork.jpg')
     html_temp = """
     <div style="background-color:tomato;padding:10px">
     <h1 style="color:white;text-align:center;">ĐỒ ÁN TỐT NGHIỆP DATA SCIENCE</h1>
@@ -116,7 +117,7 @@ elif choice == "Tìm hiểu dữ liệu":
 
     # Sự phân bổ Ratings của khách hàng
     sns.displot(reviews,x='rating',kind='hist')
-    plt.title("Biểu đồ phân phối của rating của khách hàng",fontsize=8,color='blue')
+    plt.title("Biểu đồ phân phối rating của khách hàng",fontsize=8,color='blue')
     st.pyplot()
     st.markdown(strNhanXet,unsafe_allow_html=True)
     st.write('''- Phần lớn khách hàng phản hồi tích cực về sản phẩm
